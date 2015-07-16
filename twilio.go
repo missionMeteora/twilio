@@ -15,23 +15,25 @@ const (
 	bodyTmpl    = "To=%s&From=%s&Body=%s"
 )
 
-func New(key, token string) *Client {
+func New(key, token, fromPhone string) *Client {
 	return &Client{
-		key:   key,
-		token: token,
+		key:       key,
+		token:     token,
+		fromPhone: fromPhone,
 	}
 }
 
 type Client struct {
-	key   string
-	token string
+	key       string
+	token     string
+	fromPhone string
 }
 
-func (c *Client) Send(to, from, msg string) error {
+func (c *Client) Send(to, msg string) error {
 	resp, err := http.Post(
 		c.getUrl(),
 		contentType,
-		strings.NewReader(c.getBody(to, from, msg)),
+		strings.NewReader(c.getBody(to, msg)),
 	)
 	if err != nil {
 		return err
@@ -51,11 +53,11 @@ func (c *Client) getUrl() string {
 	return fmt.Sprintf(twilioLoc, c.key, c.token, c.key)
 }
 
-func (c *Client) getBody(to, from, msg string) string {
+func (c *Client) getBody(to, msg string) string {
 	return fmt.Sprintf(
 		bodyTmpl,
 		url.QueryEscape(to),
-		url.QueryEscape(from),
+		url.QueryEscape(c.fromPhone),
 		url.QueryEscape(msg),
 	)
 }
