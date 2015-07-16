@@ -1,5 +1,3 @@
-## Twilio!
-
 # Twilio [![GoDoc](https://godoc.org/github.com/missionMeteora/twilio?status.svg)](https://godoc.org/github.com/missionMeteora/twilio) ![Status](https://img.shields.io/badge/status-beta-yellow.svg)
 
 Twilio is a library which assists with sending SMS using the Twilio Api.
