@@ -27,10 +27,10 @@ func New(key, token, fromPhone string) *Client {
 }
 
 // Client values:
-// key: Twilio Account SID
-// token: Auth token paired with the provided Account SID
-// fromPhone: Number to be used as the 'from' location for sending SMS,
-//	this number must be registered with the associated Twilio account
+// 	- key: Twilio Account SID
+// 	- token: Auth token paired with the provided Account SID
+// 	- fromPhone: Number to be used as the 'from' location for sending SMS,
+//		this number must be registered with the associated Twilio account
 type Client struct {
 	key       string
 	token     string
@@ -65,14 +65,10 @@ func (c *Client) Send(to, msg string) error {
 	return nil
 }
 
-// Uses the client's key and token to determine the POST Api location
 func (c *Client) getUrl() string {
 	return fmt.Sprintf(twilioLoc, c.key, c.token, c.key)
 }
 
-// Takes in 'to' phone number and message as arguments
-// Replaces to, from (client.fromNumber), and message to determine
-// POST request body.
 func (c *Client) getBody(to, msg string) string {
 	return fmt.Sprintf(
 		bodyTmpl,
