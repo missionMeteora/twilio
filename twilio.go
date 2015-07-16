@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -43,11 +44,7 @@ type Client struct {
 //		- The information provided to the Twilio Api
 //		  (Invalid 'to' or 'from', invalid message, etc)
 func (c *Client) Send(to, msg string) error {
-	resp, err := http.Post(
-		c.getUrl(),
-		contentType,
-		strings.NewReader(c.getBody(to, msg)),
-	)
+	resp, err := http.Post(c.getUrl(), contentType, c.getBody(to, msg))
 	if err != nil {
 		return err
 	}
@@ -69,11 +66,11 @@ func (c *Client) getUrl() string {
 	return fmt.Sprintf(twilioLoc, c.key, c.token, c.key)
 }
 
-func (c *Client) getBody(to, msg string) string {
-	return fmt.Sprintf(
+func (c *Client) getBody(to, msg string) io.Reader {
+	return strings.NewReader(fmt.Sprintf(
 		bodyTmpl,
 		url.QueryEscape(to),
 		url.QueryEscape(c.fromPhone),
 		url.QueryEscape(msg),
-	)
+	))
 }
