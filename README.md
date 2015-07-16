@@ -12,6 +12,6 @@ import (
 
 func main() {
 	tc := twilio.New([Twilio Account SID], [Twilio Auth Token], [From phone number])
-	tc.Send("+15555555", "Hello, from Twilio!")
+	tc.Send("+15555555555", "Hello, from Twilio!")
 }
 ```
